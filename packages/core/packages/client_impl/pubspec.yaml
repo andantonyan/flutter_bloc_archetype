@@ -1,5 +1,5 @@
-name: core
-description: Core
+name: client_impl
+description: Client Impl
 version: 0.0.1
 author:
 homepage:
@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  client:
+    path: ../client
 
 dev_dependencies:
   flutter_test:
