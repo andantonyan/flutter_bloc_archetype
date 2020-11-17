@@ -11,10 +11,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  model:
+    path: packages/model
+  client:
+    path: packages/client
+  client_impl:
+    path: packages/client_impl
   repository:
-    path: ../packages/repository
+    path: packages/repository
   repository_impl:
-    path: ../packages/repository_impl
+    path: packages/repository_impl
 
 dev_dependencies:
   flutter_test:

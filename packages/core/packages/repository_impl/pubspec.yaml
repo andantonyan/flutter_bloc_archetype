@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   repository:
     path: ../repository
+  client:
+    path: ../client
 
 dev_dependencies:
   flutter_test:

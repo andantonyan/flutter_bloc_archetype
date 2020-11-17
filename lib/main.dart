@@ -1,7 +1,20 @@
+import 'package:client_impl/client_impl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repository/repository.dart';
+import 'package:repository_impl/repository_impl.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<UserRepository>(
+          create: (_) => UserRepositoryImpl(AuthClientImpl()),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
