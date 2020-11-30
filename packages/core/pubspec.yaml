@@ -11,20 +11,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  model:
-    path: model
-  client:
-    path: client
-  client_impl:
-    path: client_impl
-  repository:
-    path: repository
-  repository_impl:
-    path: repository_impl
-  service:
-    path: service
-  service_impl:
-    path: service_impl
 
 dev_dependencies:
   flutter_test:
