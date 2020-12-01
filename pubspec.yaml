@@ -24,13 +24,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^6.1.1
-  common:
-    path: packages/common
-  client_impl:
-    path: packages/core/packages/client_impl
-  repository_impl:
-    path: packages/core/packages/repository_impl
-
+  path_provider: ^1.6.24
+  data:
+    path: data
+  domain:
+    path: domain
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

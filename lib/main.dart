@@ -1,20 +1,20 @@
-import 'package:client_impl/client_impl.dart';
+import 'package:data/data.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:repository/repository.dart';
-import 'package:repository_impl/repository_impl.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
-  runApp(
-    MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<UserRepository>(
-          create: (_) => UserRepositoryImpl(AuthClientImpl()),
-        ),
-      ],
-      child: MyApp(),
-    ),
-  );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final tempDir = await getTemporaryDirectory();
+
+  initDB(tempDir.path);
+
+  LoginUserCase(UserDataRepository(AuthClientImpl(), UserCacheImpl()))
+      .execute(Params('test_user', 'password'))
+      .listen(print);
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
