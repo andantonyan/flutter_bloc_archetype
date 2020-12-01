@@ -3,11 +3,11 @@ import '../entity/entity.dart';
 abstract class UserCache {
   Stream<UserEntity> get(String userId);
 
-  void put(UserEntity userEntity);
+  Future<void> put(UserEntity userEntity);
 
-  bool isCached(String userId);
+  Future<bool> isCached(String userId);
 
-  bool isExpired();
+  Future<bool> isExpired(String userId);
 
-  void evictAll();
+  Future<void> clear();
 }
