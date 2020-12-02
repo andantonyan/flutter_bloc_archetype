@@ -8,4 +8,9 @@ class AuthClientImpl implements AuthClient {
   Future<User> authenticate(final String username, final String password) async {
     return User(id: 'id', firstName: 'firstName', lastName: 'lastName');
   }
+
+  @override
+  Future<User> getCurrentUser() async {
+    return User(id: 'id', firstName: 'firstName', lastName: 'lastName');
+  }
 }

@@ -18,4 +18,9 @@ class UserDataRepository implements UserRepository {
 
     return authClient.authenticate(username, password).asStream();
   }
+
+  @override
+  Stream<User> getCurrentUser() {
+    return authClient.getCurrentUser().asStream();
+  }
 }
