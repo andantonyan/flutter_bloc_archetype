@@ -1,46 +1,46 @@
+import 'dart:async';
+
 import 'package:hive/hive.dart';
 
 import '../../entity/entity.dart';
-import '../../exception/exception.dart';
 import '../user_cache.dart';
 import 'user_cache_object.dart';
 
 class UserCacheImpl implements UserCache {
   static final _boxName = 'user_cache';
   static final _currentUserKey = 'current_user';
-  static final _expirationTimeInMs = 60 * 10 * 1000;
+  static final _cacheTTL = Duration(minutes: 10);
 
-  Box _box;
+  final Box _box;
 
-  UserCacheImpl() {
-    _init();
-  }
+  UserCacheImpl._(this._box);
 
-  Future _init() async {
-    _box = await Hive.openBox(_boxName);
+  static Future create() async {
+    final box = await Hive.openBox(_boxName);
+    return UserCacheImpl._(box);
   }
 
   @override
   Stream<UserEntity> get(final String userId) async* {
     assert(userId != null);
 
-    final userEntity = _box.get(userId)?.toEntity();
+    final UserCacheObject cachedUser = _box.get(userId);
 
-    if (userEntity != null) {
-      yield userEntity;
+    if (cachedUser != null && !cachedUser.isExpired) {
+      yield cachedUser.toEntity();
     } else {
-      throw const UserNotFoundException();
+      yield null;
     }
   }
 
   @override
   Stream<UserEntity> getCurrentUser() async* {
-    final userEntity = _box.get(_currentUserKey)?.toEntity();
+    final UserCacheObject cachedUser = _box.get(_currentUserKey);
 
-    if (userEntity != null) {
-      yield userEntity;
+    if (cachedUser != null && !cachedUser.isExpired) {
+      yield cachedUser.toEntity();
     } else {
-      throw const UserNotAuthenticatedException();
+      yield null;
     }
   }
 
@@ -48,7 +48,7 @@ class UserCacheImpl implements UserCache {
   Future<void> put(final UserEntity userEntity) async {
     assert(userEntity != null);
 
-    final obj = UserCacheObject.fromEntity(userEntity);
+    final obj = UserCacheObject.fromEntity(userEntity, _cacheTTL);
     await _box.put(obj.id, obj);
   }
 
@@ -56,24 +56,9 @@ class UserCacheImpl implements UserCache {
   Future<void> putAuthUser(final UserEntity userEntity) async {
     assert(userEntity != null);
 
-    final obj = UserCacheObject.fromEntity(userEntity);
+    final obj = UserCacheObject.fromEntity(userEntity, _cacheTTL);
     await _box.put(obj.id, obj);
     await _box.put(_currentUserKey, obj);
-  }
-
-  @override
-  Future<bool> isCached(final String userId) async {
-    assert(userId != null);
-
-    return _box.containsKey(userId);
-  }
-
-  @override
-  Future<bool> isExpired(final String userId) async {
-    final UserCacheObject userCache = _box.get(userId);
-
-    return userCache == null ||
-        userCache.created.add(Duration(milliseconds: _expirationTimeInMs)).isAfter(DateTime.now());
   }
 
   @override

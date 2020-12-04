@@ -6,7 +6,7 @@ import 'user_cache_object.dart';
 
 export 'user_cache_impl.dart';
 
-void initDB(final String path) {
+Future<void> initDB(final String path) async {
   Hive
     ..init(path)
     ..registerAdapter(UserCacheObjectAdapter());

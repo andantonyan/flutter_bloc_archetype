@@ -4,7 +4,7 @@ import '../../entity/entity.dart';
 
 part 'user_cache_object.g.dart';
 
-@HiveType(typeId: 3)
+@HiveType(typeId: 4)
 class UserCacheObject {
   @HiveField(0)
   final String id;
@@ -15,9 +15,17 @@ class UserCacheObject {
   @HiveField(2)
   final DateTime created;
 
-  const UserCacheObject(this.id, this.username, this.created);
+  @HiveField(3)
+  final DateTime expires;
 
-  factory UserCacheObject.fromEntity(UserEntity entity) => UserCacheObject(entity.id, entity.username, DateTime.now());
+  bool get isExpired {
+    return expires.isAfter(created);
+  }
+
+  const UserCacheObject(this.id, this.username, this.created, this.expires);
+
+  factory UserCacheObject.fromEntity(UserEntity entity, Duration ttl) =>
+      UserCacheObject(entity.id, entity.username, DateTime.now(), DateTime.now()..add(ttl));
 
   UserEntity toEntity() {
     return UserEntity(id, username);

@@ -9,9 +9,5 @@ abstract class UserCache {
 
   Future<void> putAuthUser(UserEntity userEntity);
 
-  Future<bool> isCached(String userId);
-
-  Future<bool> isExpired(String userId);
-
   Future<void> clear();
 }

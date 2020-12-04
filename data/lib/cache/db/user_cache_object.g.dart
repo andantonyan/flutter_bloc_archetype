@@ -8,7 +8,7 @@ part of 'user_cache_object.dart';
 
 class UserCacheObjectAdapter extends TypeAdapter<UserCacheObject> {
   @override
-  final int typeId = 3;
+  final int typeId = 4;
 
   @override
   UserCacheObject read(BinaryReader reader) {
@@ -20,19 +20,22 @@ class UserCacheObjectAdapter extends TypeAdapter<UserCacheObject> {
       fields[0] as String,
       fields[1] as String,
       fields[2] as DateTime,
+      fields[3] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserCacheObject obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.username)
       ..writeByte(2)
-      ..write(obj.created);
+      ..write(obj.created)
+      ..writeByte(3)
+      ..write(obj.expires);
   }
 
   @override

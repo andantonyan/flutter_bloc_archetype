@@ -1,3 +1,5 @@
+import 'package:data/data.dart';
+import 'package:data/repository/network_bound_resource.dart';
 import 'package:domain/domain.dart';
 
 import '../cache/cache.dart';
@@ -21,6 +23,11 @@ class UserDataRepository implements UserRepository {
 
   @override
   Stream<User> getCurrentUser() {
-    return authClient.getCurrentUser().asStream();
+    return NetworkBoundResources<UserEntity>(
+      fromCache: userCache.getCurrentUser,
+      fromApi: () => authClient.getCurrentUser().asStream(),
+      shouldCallApi: (data) => true,
+      saveApiResult: (data) async => await userCache.putAuthUser(data),
+    ).asStream();
   }
 }

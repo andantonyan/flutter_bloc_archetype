@@ -8,16 +8,12 @@ void main() async {
 
   final tempDir = await getTemporaryDirectory();
 
-  initDB(tempDir.path);
-  final userCache = UserCacheImpl();
+  await initDB(tempDir.path);
+  final userCache = await UserCacheImpl.create();
   final authClient = AuthClientImpl();
   final userDataRepository = UserDataRepository(authClient, userCache);
 
-  // FIXME: waiting to database box initialization
-  await Future.delayed(Duration(seconds: 1));
-  LoginUserCase(userDataRepository)
-      .execute(Params('test_user', 'password'))
-      .listen(print);
+  GetCurrentUserUseCase(userDataRepository).execute(const NoParams()).listen(print);
 
   runApp(MyApp());
 }

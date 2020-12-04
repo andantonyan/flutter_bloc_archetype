@@ -9,6 +9,6 @@ class AuthClientImpl implements AuthClient {
 
   @override
   Future<UserEntity> getCurrentUser() async {
-    return UserEntity('test_id', 'username');
+    return UserEntity('id', 'from_api');
   }
 }
