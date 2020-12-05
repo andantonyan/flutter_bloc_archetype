@@ -11,9 +11,10 @@ void main() async {
   await initDB(tempDir.path);
   final userCache = await UserCacheImpl.create();
   final authClient = AuthClientImpl();
-  final userDataRepository = UserDataRepository(authClient, userCache);
+  final userDataRepository = AuthDataRepository(authClient, userCache);
+  final currentUserStream = CurrentUserStream(userDataRepository);
 
-  GetCurrentUserUseCase(userDataRepository).execute(const NoParams()).listen(print);
+  currentUserStream.execute(null).listen(print);
 
   runApp(MyApp());
 }

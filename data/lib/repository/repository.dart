@@ -1,4 +1,4 @@
 library repository;
 
 export 'mapper/mapper.dart';
-export 'user_data_repository.dart';
+export 'auth_data_repository.dart';

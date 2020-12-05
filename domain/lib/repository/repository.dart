@@ -1,5 +1,3 @@
 library repository;
 
-import '../model/model.dart';
-
-part 'user_repository.dart';
+export 'auth_repository.dart';
