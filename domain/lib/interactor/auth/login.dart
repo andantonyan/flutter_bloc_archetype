@@ -3,14 +3,14 @@ import '../../repository/repository.dart';
 import '../use_case_future.dart';
 
 class Login implements UseCaseFuture<User, Params> {
-  final AuthRepository _userRepository;
+  final AuthRepository _authRepository;
 
-  const Login(this._userRepository) : assert(_userRepository != null);
+  const Login(this._authRepository) : assert(_authRepository != null);
 
   @override
   Future<User> execute(final Params params) {
     assert(params != null);
-    return _userRepository.login(params.username, params.password);
+    return _authRepository.login(params.username, params.password);
   }
 }
 

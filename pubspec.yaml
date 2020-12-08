@@ -25,6 +25,8 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^6.1.1
   path_provider: ^1.6.24
+  formz: ^0.3.2
+  equatable: ^1.2.5
   data:
     path: data
   domain:

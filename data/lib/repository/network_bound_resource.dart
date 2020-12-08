@@ -27,12 +27,15 @@ class NetworkBoundResources<T> {
       }
 
       if (shouldCallApi(event)) {
-        apiListener = fromApi().listen((event) {
-          _result.sink.add(event);
-          saveApiResult(event);
-        });
+        apiListener = fromApi().listen(
+          (event) {
+            _result.sink.add(event);
+            saveApiResult(event);
+          },
+          onError: (err) => _result.sink.addError(err),
+        );
       }
-    });
+    }, onError: (err) => _result.sink.addError(err));
   }
 
   Stream<T> asStream() {
